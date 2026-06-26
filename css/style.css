@@ -169,15 +169,15 @@ body::before {
 
 /* ----- 表格 ----- */
 .table-wrapper { overflow-x: auto; margin: 16px 0; flex: 1; }
-.doc-table { width: 100%; border-collapse: collapse; font-size: 15px; color: #000; }
-.doc-table th, .doc-table td { border: 1px solid #999; padding: 8px 4px; text-align: center; height: 36px; line-height: 22px; font-weight: 500; }
+.doc-table { width: 100%; border-collapse: collapse; font-size: 17px; color: #000; }
+.doc-table th, .doc-table td { border: 1px solid #999; padding: 8px 4px; text-align: center; height: 38px; line-height: 24px; font-weight: 500; }
 .doc-table td:empty::after { content: '\00a0'; }
-.doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; font-size: 14px; }
+.doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; font-size: 15px; }
 .doc-table td input {
   width: 100%;
   border: none;
   text-align: center;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   font-family: inherit;
   background: transparent;

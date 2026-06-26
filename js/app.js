@@ -252,14 +252,14 @@ const Table = {
       const num = r.num || (i < 5 ? i + 1 : '');
       const hasNum = num !== '';
       return `<tr>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:40px;">${num}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-weight:bold;color:#d32f2f;font-size:17px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:40px;">${num}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-weight:bold;color:#d32f2f;font-size:17px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:38px;font-size:17px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
       </tr>`;
     }).join('');
   },
@@ -285,14 +285,14 @@ const Table = {
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:17px;color:#000;margin:16px 0;">
         <thead><tr style="background:#e8edf3;">
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:200px;">商品全名</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">规格型号</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:56px;">单位</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:64px;">数量</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:60px;">单价(元)</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">金额(元)</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:112px;">备注</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:200px;">商品全名</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">规格型号</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:56px;">单位</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:64px;">数量</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:60px;">单价(元)</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">金额(元)</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:38px;font-size:15px;font-weight:bold;color:#1a73e8;width:112px;">备注</th>
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
