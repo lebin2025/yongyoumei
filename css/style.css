@@ -97,7 +97,6 @@ body::before {
   letter-spacing: 4px;
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #ccc;
   outline: none;
 }
 

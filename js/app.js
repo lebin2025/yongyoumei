@@ -276,7 +276,7 @@ const Table = {
     const footerLabels = { contactPhone: '联系电话', contactPerson2: '联系人', bankAccount: '农行账号', footerAddress: '地址' };
 
     return `<div style="padding:20px 18px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;width:794px;min-height:1050px;color:#000;">
-      <div style="text-align:center;font-size:26px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #ccc;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
+      <div style="text-align:center;font-size:26px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:17px;font-weight:500;color:#000;">
         ${Object.keys(data.headerFields || {}).map(k => {
           const val = k === 'docDate' ? Util.formatDate(data.headerFields[k]) : data.headerFields[k];
@@ -296,7 +296,7 @@ const Table = {
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
-      <div style="text-align:right;font-size:17px;font-weight:bold;margin-top:12px;padding-top:8px;border-top:2px solid #333;color:#000;">
+      <div style="text-align:right;font-size:17px;font-weight:bold;margin-top:12px;padding-top:8px;color:#000;">
         合计金额：<span style="color:#d32f2f;font-size:18px;">${Util.formatMoney(total)}</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:17px;font-weight:500;color:#000;">
         ${Object.keys(data.footerFields || {}).filter(k => k !== 'remark').map(k =>
