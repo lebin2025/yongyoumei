@@ -363,7 +363,7 @@ async function saveProject() {
 // 模板列表渲染
 // ===================================================================
 const TemplateList = {
-  render() {
+  async render() {
     const container = document.getElementById('templateList');
     try {
       const templates = await Storage.templates.list();
@@ -397,7 +397,7 @@ const TemplateList = {
     }
   },
 
-  renderForLoad() {
+  async renderForLoad() {
     const container = document.getElementById('loadTemplateList');
     try {
       const templates = await Storage.templates.list();
@@ -430,7 +430,8 @@ const TemplateList = {
 // 模板操作
 // ===================================================================
 const TemplateActions = {
-  use(id) {
+  async use(id) {
+  async use(id) {
     try {
       const template = await Storage.templates.get(id);
       if (!template) { Util.toast('模板不存在', 'error'); return; }
@@ -506,7 +507,8 @@ const TemplateActions = {
 // 项目列表渲染
 // ===================================================================
 const ProjectList = {
-  render(filterText) {
+  async render(filterText) {
+  async render(filterText) {
     if (filterText !== undefined) State.searchTerm = filterText.trim().toLowerCase();
     const container = document.getElementById('projectList');
 
