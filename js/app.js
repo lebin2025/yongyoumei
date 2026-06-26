@@ -313,7 +313,7 @@ const Table = {
 // 预览
 // ===================================================================
 const Preview = {
-  open(data, rows) {
+  async open(data, rows) {
     document.getElementById('previewContent').innerHTML =
       Table.buildDocHTML(data, rows || data.rows);
     document.getElementById('previewOverlay').classList.add('show');
@@ -431,7 +431,6 @@ const TemplateList = {
 // ===================================================================
 const TemplateActions = {
   async use(id) {
-  async use(id) {
     try {
       const template = await Storage.templates.get(id);
       if (!template) { Util.toast('模板不存在', 'error'); return; }
@@ -447,7 +446,7 @@ const TemplateActions = {
     }
   },
 
-  rename(id) {
+  async rename(id) {
     const templates = await Storage.templates.list();
     const t = templates.find(x => x.id === id);
     if (!t) return;
@@ -508,8 +507,6 @@ const TemplateActions = {
 // ===================================================================
 const ProjectList = {
   async render(filterText) {
-  async render(filterText) {
-    if (filterText !== undefined) State.searchTerm = filterText.trim().toLowerCase();
     const container = document.getElementById('projectList');
 
     try {
@@ -608,7 +605,7 @@ const ProjectActions = {
   },
 
   /** 获取当前选中的项目 */
-  _getSelected() {
+  async _getSelected() {
     if (!State.selectedProjectId) {
       Util.toast('请先在下方点击选中一个项目', 'error');
       return null;
