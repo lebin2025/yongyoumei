@@ -61,11 +61,11 @@ const Auth = {
 
     try {
       // 检查用户名是否存在
-      const { data: existing } = await supabase.from('users').select('id').eq('username', username).maybeSingle();
+      const { data: existing } = await db.from('users').select('id').eq('username', username).maybeSingle();
       if (existing) return { ok: false, msg: '该用户名已被注册' };
 
       const passwordHash = this._hash(password);
-      await supabase.from('users').insert({ username, password: passwordHash });
+      await db.from('users').insert({ username, password: passwordHash });
       return { ok: true };
     } catch (e) {
       return { ok: false, msg: '网络错误，请重试' };
@@ -78,7 +78,7 @@ const Auth = {
     if (!username || !password) return { ok: false, msg: '请填写用户名和密码' };
 
     try {
-      const { data: user } = await supabase.from('users').select('*').eq('username', username).maybeSingle();
+      const { data: user } = await db.from('users').select('*').eq('username', username).maybeSingle();
       if (!user) return { ok: false, msg: '用户名不存在' };
 
       const hash = this._hash(password);
