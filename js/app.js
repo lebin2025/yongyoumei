@@ -252,14 +252,14 @@ const Table = {
       const num = r.num || (i < 5 ? i + 1 : '');
       const hasNum = num !== '';
       return `<tr>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:40px;">${num}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-weight:bold;color:#d32f2f;font-size:16px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:16px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:40px;">${num}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-weight:bold;color:#d32f2f;font-size:17px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:17px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
       </tr>`;
     }).join('');
   },
@@ -277,13 +277,13 @@ const Table = {
 
     return `<div style="padding:20px 18px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;width:794px;min-height:1050px;color:#000;">
       <div style="text-align:center;font-size:26px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #ccc;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:16px;font-weight:500;color:#000;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:17px;font-weight:500;color:#000;">
         ${Object.keys(data.headerFields || {}).map(k => {
           const val = k === 'docDate' ? Util.formatDate(data.headerFields[k]) : data.headerFields[k];
           return `<div><strong style="color:#111;">${headerLabels[k] || k}：</strong>${Util.escapeHtml(val || '')}</div>`;
         }).join('')}
       </div>
-      <table style="width:100%;border-collapse:collapse;font-size:16px;color:#000;margin:16px 0;">
+      <table style="width:100%;border-collapse:collapse;font-size:17px;color:#000;margin:16px 0;">
         <thead><tr style="background:#e8edf3;">
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:15px;font-weight:bold;color:#1a73e8;width:200px;">商品全名</th>
@@ -296,14 +296,14 @@ const Table = {
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
-      <div style="text-align:right;font-size:16px;font-weight:bold;margin-top:12px;padding-top:8px;border-top:2px solid #333;color:#000;">
+      <div style="text-align:right;font-size:17px;font-weight:bold;margin-top:12px;padding-top:8px;border-top:2px solid #333;color:#000;">
         合计金额：<span style="color:#d32f2f;font-size:18px;">${Util.formatMoney(total)}</span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:16px;font-weight:500;color:#000;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:17px;font-weight:500;color:#000;">
         ${Object.keys(data.footerFields || {}).filter(k => k !== 'remark').map(k =>
           `<div><strong style="color:#111;">${footerLabels[k] || k}：</strong>${Util.escapeHtml(data.footerFields[k] || '')}</div>`
         ).join('')}
       </div>
-      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:16px;font-weight:500;color:#000;">
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:17px;font-weight:500;color:#000;">
         <strong style="color:#111;">注：</strong>${Util.escapeHtml((data.footerFields && data.footerFields.remark) || '').replace(/\n/g, '<br>')}
       </div></div>`;
   }
