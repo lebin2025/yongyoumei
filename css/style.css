@@ -153,7 +153,7 @@ body::before {
   border: none;
   border-bottom: 1px dashed #bbb;
   padding: 4px 6px;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 500;
   font-family: inherit;
   background: transparent;
@@ -169,7 +169,7 @@ body::before {
 
 /* ----- 表格 ----- */
 .table-wrapper { overflow-x: auto; margin: 16px 0; flex: 1; }
-.doc-table { width: 100%; border-collapse: collapse; font-size: 17px; color: #000; }
+.doc-table { width: 100%; border-collapse: collapse; font-size: 20px; color: #000; }
 .doc-table th, .doc-table td { border: 1px solid #999; padding: 8px 4px; text-align: center; height: 38px; line-height: 24px; font-weight: 500; }
 .doc-table td:empty::after { content: '\00a0'; }
 .doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; font-size: 15px; }
@@ -177,7 +177,7 @@ body::before {
   width: 100%;
   border: none;
   text-align: center;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 500;
   font-family: inherit;
   background: transparent;
@@ -574,13 +574,13 @@ body::before {
   .doc-table td input { font-size: 13px; }
 
   .doc-total-row { font-size: 15px; padding: 10px 8px 0; }
-  .doc-total-row .total-amount { font-size: 17px; }
+  .doc-total-row .total-amount { font-size: 20px; }
 
   .search-box input { width: 130px; height: 34px; font-size: 12px; }
   #projectNameInput { width: 110px !important; height: 34px !important; font-size: 12px !important; }
 
   .modal-box { min-width: auto; max-width: 92vw; padding: 20px; border-radius: 12px; }
-  .modal-box h3 { font-size: 17px; }
+  .modal-box h3 { font-size: 20px; }
 
   .project-grid { gap: 6px; }
   .project-card { padding: 10px 12px; gap: 10px; border-radius: 8px; }
