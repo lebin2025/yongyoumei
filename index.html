@@ -13,7 +13,6 @@
 <!-- CDN 依赖：PDF 导出 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -249,6 +248,8 @@
 </div>
 
 <!-- ===== JavaScript（顺序加载） ===== -->
+<!-- 0. Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- 0. Supabase 配置 -->
 <script src="js/supabase-config.js"></script>
 <!-- 1. 登录 / 注册 -->
