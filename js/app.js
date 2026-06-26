@@ -343,7 +343,7 @@ async function saveProject() {
     || data.headerFields.docNo || '未命名项目';
 
   try {
-    const project = await await Storage.projects.save({
+    const project = await Storage.projects.save({
       id: State.currentProjectId,
       name: projectName,
       data: data,
@@ -455,7 +455,7 @@ const TemplateActions = {
     openModal('renameTemplateModal');
   },
 
-  confirmRename() {
+  async confirmRename() {
     const id = document.getElementById('renameTemplateModal')._tid;
     const newName = document.getElementById('renameTemplateName').value.trim();
     if (!newName) { Util.toast('请输入名称', 'error'); return; }
@@ -469,7 +469,7 @@ const TemplateActions = {
     }
   },
 
-  remove(id) {
+  async remove(id) {
     if (!confirm('确定要删除此模板吗？此操作不可恢复。')) return;
     try {
       await Storage.templates.delete(id);
@@ -486,7 +486,7 @@ const TemplateActions = {
     openModal('createTemplateModal');
   },
 
-  createFromCurrent() {
+  async createFromCurrent() {
     const name = document.getElementById('newTemplateName').value.trim();
     if (!name) { Util.toast('请输入模板名称', 'error'); return; }
     const desc = document.getElementById('newTemplateDesc').value.trim();
@@ -577,7 +577,7 @@ const ProjectList = {
 // 项目操作
 // ===================================================================
 const ProjectActions = {
-  open(id) {
+  async open(id) {
     try {
       const project = await Storage.projects.get(id);
       if (!project) { Util.toast('项目不存在', 'error'); return; }
@@ -594,7 +594,7 @@ const ProjectActions = {
     }
   },
 
-  remove(id) {
+  async remove(id) {
     if (!confirm('确定要删除此项目吗？此操作不可恢复。')) return;
     try {
       await Storage.projects.delete(id);
@@ -653,7 +653,7 @@ const ProjectActions = {
   },
 
   /** 编辑选中的项目 */
-  openSelected() {
+  async openSelected() {
     if (!State.selectedProjectId) {
       Util.toast('请先在下方点击选中一个项目', 'error');
       return;
@@ -662,7 +662,7 @@ const ProjectActions = {
   },
 
   /** 删除选中的项目 */
-  removeSelected() {
+  async removeSelected() {
     if (!State.selectedProjectId) {
       Util.toast('请先在下方点击选中一个项目', 'error');
       return;
@@ -672,7 +672,7 @@ const ProjectActions = {
   },
 
   // ---- 导出 PDF ----
-  exportPDF() {
+  async exportPDF() {
     const project = this._getSelected();
     if (!project) return;
 
@@ -729,7 +729,7 @@ const ProjectActions = {
   },
 
   // ---- 导出 Excel ----
-  exportExcel() {
+  async exportExcel() {
     const project = this._getSelected();
     if (!project) return;
 
@@ -767,7 +767,7 @@ const ProjectActions = {
   },
 
   // ---- 预览项目 ----
-  preview() {
+  async preview() {
     const project = this._getSelected();
     if (!project) return;
 
