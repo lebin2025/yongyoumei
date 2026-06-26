@@ -190,8 +190,8 @@ body::before {
 
 .doc-table .col-no    { width: 40px; }
 .row-num-input { width: 34px !important; }
-.doc-table .col-name  { width: 220px; }
-.doc-table .col-spec  { width: 60px; }
+.doc-table .col-name  { width: 200px; }
+.doc-table .col-spec  { width: 80px; }
 .doc-table .col-unit  { width: 56px; }
 .doc-table .col-qty   { width: 64px; }
 .doc-table .col-price { width: 60px; }
@@ -626,8 +626,8 @@ body::before {
   .doc-table { font-size: 12px; }
   .doc-table th, .doc-table td { padding: 5px 2px; height: 32px; }
   .doc-table td input { font-size: 12px; }
-  .doc-table .col-name { width: 90px; }
-  .doc-table .col-spec { width: 50px; }
+  .doc-table .col-name { width: 80px; }
+  .doc-table .col-spec { width: 60px; }
   .doc-table .col-unit, .doc-table .col-qty, .doc-table .col-price, .doc-table .col-amount { width: 38px; }
   .doc-table .col-remark { width: 70px; }
 

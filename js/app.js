@@ -286,8 +286,8 @@ const Table = {
       <table style="width:100%;border-collapse:collapse;font-size:15px;color:#000;margin:16px 0;">
         <thead><tr style="background:#e8edf3;">
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:220px;">商品全名</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:60px;">规格型号</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:200px;">商品全名</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:80px;">规格型号</th>
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:56px;">单位</th>
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:64px;">数量</th>
           <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:60px;">单价(元)</th>
@@ -615,7 +615,7 @@ const ProjectActions = {
 
   /** 导出选中项目为 JPG 照片 */
   async exportJPG() {
-    const project = this._getSelected();
+    const project = await this._getSelected();
     if (!project) return;
 
     const data = project.data;
@@ -672,7 +672,7 @@ const ProjectActions = {
 
   // ---- 导出 PDF ----
   async exportPDF() {
-    const project = this._getSelected();
+    const project = await this._getSelected();
     if (!project) return;
 
     const data = project.data;
@@ -729,7 +729,7 @@ const ProjectActions = {
 
   // ---- 导出 Excel ----
   async exportExcel() {
-    const project = this._getSelected();
+    const project = await this._getSelected();
     if (!project) return;
 
     let rows = (project.data && project.data.rows) ? project.data.rows : [];
@@ -767,7 +767,7 @@ const ProjectActions = {
 
   // ---- 预览项目 ----
   async preview() {
-    const project = this._getSelected();
+    const project = await this._getSelected();
     if (!project) return;
 
     let rows = (project.data && project.data.rows) ? project.data.rows : [];
