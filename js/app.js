@@ -55,7 +55,7 @@ const State = {
   currentProjectId: null,
   selectedProjectId: null,  // "我的项目"中选中的项目
   searchTerm: '',
-  DEFAULT_ROWS: 5
+  DEFAULT_ROWS: 16
 };
 
 // ===================================================================
@@ -110,8 +110,10 @@ const Document = {
 
     const rows = [];
     document.querySelectorAll('#tableBody tr').forEach(tr => {
-      const inputs = tr.querySelectorAll('input');
+      const numInput = tr.querySelector('.row-num-input');
+      const inputs = tr.querySelectorAll('input:not(.row-num-input)');
       rows.push({
+        num:    numInput ? numInput.value : '',
         name:   inputs[0]?.value || '',
         spec:   inputs[1]?.value || '',
         unit:   inputs[2]?.value || '',
@@ -161,10 +163,12 @@ const Document = {
     Table.refresh();
   },
 
-  /** 计算总金额 */
+  /** 计算总金额（只统计有序号的行） */
   calcTotal(rows) {
-    return rows.reduce((sum, r) =>
-      sum + (parseFloat(r.qty) || 0) * (parseFloat(r.price) || 0), 0);
+    return rows.reduce((sum, r, i) => {
+      const num = r.num !== undefined ? String(r.num).trim() : (i < 5 ? String(i + 1) : '');
+      return num ? sum + (parseFloat(r.qty) || 0) * (parseFloat(r.price) || 0) : sum;
+    }, 0);
   },
 
   /** 重置为空白单据 */
@@ -195,8 +199,9 @@ const Table = {
   addRow(data) {
     const tbody = document.getElementById('tableBody');
     const tr = document.createElement('tr');
+    const rowNum = data?.num !== undefined ? String(data.num) : '';
     tr.innerHTML = `
-      <td class="col-no row-num"></td>
+      <td class="col-no"><input type="text" class="row-num-input" placeholder="" value="${Util.escapeHtml(rowNum)}" style="text-align:center;"></td>
       <td class="col-name"><input type="text" placeholder="商品名称" value="${Util.escapeHtml(data?.name || '')}"></td>
       <td class="col-spec"><input type="text" placeholder="规格型号" value="${Util.escapeHtml(data?.spec || '')}"></td>
       <td class="col-unit"><input type="text" placeholder="单位" value="${Util.escapeHtml(data?.unit || '')}"></td>
@@ -207,11 +212,13 @@ const Table = {
     `;
     tbody.appendChild(tr);
 
-    const qtyInput = tr.querySelectorAll('input')[3];
-    const priceInput = tr.querySelectorAll('input')[4];
+    const qtyInput = tr.querySelectorAll('input:not(.row-num-input)')[3];
+    const priceInput = tr.querySelectorAll('input:not(.row-num-input)')[4];
+    const numInput = tr.querySelector('.row-num-input');
     const handler = () => Table.refresh();
     qtyInput.addEventListener('input', handler);
     priceInput.addEventListener('input', handler);
+    if (numInput) numInput.addEventListener('input', handler);
   },
 
   removeLast() {
@@ -224,13 +231,16 @@ const Table = {
   refresh() {
     let total = 0;
     document.querySelectorAll('#tableBody tr').forEach((tr, i) => {
-      tr.querySelector('.row-num').textContent = i + 1;
-      const inputs = tr.querySelectorAll('input');
+      // 序号输入框：前5行默认填序号
+      const numInput = tr.querySelector('.row-num-input');
+      if (numInput && !numInput.value && i < 5) numInput.value = i + 1;
+      const hasNum = !!(numInput && numInput.value.trim());
+      const inputs = tr.querySelectorAll('input:not(.row-num-input)');
       const qty = parseFloat(inputs[3]?.value) || 0;
       const price = parseFloat(inputs[4]?.value) || 0;
       const amount = qty * price;
-      tr.querySelector('.amount-cell').textContent = amount.toFixed(2);
-      total += amount;
+      tr.querySelector('.amount-cell').textContent = hasNum ? amount.toFixed(2) : '';
+      if (hasNum) total += amount;
     });
     document.getElementById('totalAmount').textContent = Util.formatMoney(total);
   },
@@ -239,15 +249,17 @@ const Table = {
   buildHTML(rows) {
     return rows.map((r, i) => {
       const amt = (parseFloat(r.qty) || 0) * (parseFloat(r.price) || 0);
+      const num = r.num || (i < 5 ? i + 1 : '');
+      const hasNum = num !== '';
       return `<tr>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${i + 1}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.name)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.spec)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.unit)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.qty)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.price)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;font-weight:bold;color:#d32f2f;">${amt.toFixed(2)}</td>
-        <td style="border:1px solid #999;padding:6px;text-align:center;">${Util.escapeHtml(r.remark)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:40px;">${num}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-weight:bold;color:#d32f2f;font-size:15px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
+        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:36px;font-size:15px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
       </tr>`;
     }).join('');
   },
@@ -263,36 +275,36 @@ const Table = {
     };
     const footerLabels = { contactPhone: '联系电话', contactPerson2: '联系人', bankAccount: '农行账号', footerAddress: '地址' };
 
-    return `<div style="padding:32px 36px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;">
-      <div style="text-align:center;font-size:22px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #333;">${Util.escapeHtml(data.docTitle)}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:14px;">
+    return `<div style="padding:24px 28px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;width:794px;min-height:1050px;color:#000;">
+      <div style="text-align:center;font-size:24px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #ccc;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:15px;font-weight:500;color:#000;">
         ${Object.keys(data.headerFields || {}).map(k => {
           const val = k === 'docDate' ? Util.formatDate(data.headerFields[k]) : data.headerFields[k];
-          return `<div><strong>${headerLabels[k] || k}：</strong>${Util.escapeHtml(val || '')}</div>`;
+          return `<div><strong style="color:#111;">${headerLabels[k] || k}：</strong>${Util.escapeHtml(val || '')}</div>`;
         }).join('')}
       </div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
+      <table style="width:100%;border-collapse:collapse;font-size:15px;color:#000;margin:16px 0;">
         <thead><tr style="background:#e8edf3;">
-          <th style="border:1px solid #999;padding:6px;">序号</th>
-          <th style="border:1px solid #999;padding:6px;">商品全名</th>
-          <th style="border:1px solid #999;padding:6px;">规格型号</th>
-          <th style="border:1px solid #999;padding:6px;">单位</th>
-          <th style="border:1px solid #999;padding:6px;">数量</th>
-          <th style="border:1px solid #999;padding:6px;">单价(元)</th>
-          <th style="border:1px solid #999;padding:6px;">金额(元)</th>
-          <th style="border:1px solid #999;padding:6px;">备注</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:220px;">商品全名</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:60px;">规格型号</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:56px;">单位</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:64px;">数量</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:60px;">单价(元)</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:80px;">金额(元)</th>
+          <th style="border:1px solid #999;padding:8px 4px;height:36px;font-size:14px;font-weight:bold;color:#1a73e8;width:112px;">备注</th>
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
-      <div style="text-align:right;font-size:16px;font-weight:bold;margin-top:12px;padding-top:8px;border-top:2px solid #333;">
+      <div style="text-align:right;font-size:16px;font-weight:bold;margin-top:12px;padding-top:8px;border-top:2px solid #333;color:#000;">
         合计金额：<span style="color:#d32f2f;font-size:18px;">${Util.formatMoney(total)}</span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:15px;font-weight:500;color:#000;">
         ${Object.keys(data.footerFields || {}).filter(k => k !== 'remark').map(k =>
-          `<div><strong>${footerLabels[k] || k}：</strong>${Util.escapeHtml(data.footerFields[k] || '')}</div>`
+          `<div><strong style="color:#111;">${footerLabels[k] || k}：</strong>${Util.escapeHtml(data.footerFields[k] || '')}</div>`
         ).join('')}
       </div>
-      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:14px;">
-        <strong>注：</strong>${Util.escapeHtml((data.footerFields && data.footerFields.remark) || '').replace(/\n/g, '<br>')}
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:15px;font-weight:500;color:#000;">
+        <strong style="color:#111;">注：</strong>${Util.escapeHtml((data.footerFields && data.footerFields.remark) || '').replace(/\n/g, '<br>')}
       </div></div>`;
   }
 };
@@ -324,14 +336,14 @@ function newDocument() {
 // ===================================================================
 // 保存项目
 // ===================================================================
-function saveProject() {
+async function saveProject() {
   const data = Document.collect();
   const totalAmount = Document.calcTotal(data.rows);
   const projectName = document.getElementById('projectNameInput').value.trim()
     || data.headerFields.docNo || '未命名项目';
 
   try {
-    const project = Storage.projects.save({
+    const project = await await Storage.projects.save({
       id: State.currentProjectId,
       name: projectName,
       data: data,
@@ -354,7 +366,7 @@ const TemplateList = {
   render() {
     const container = document.getElementById('templateList');
     try {
-      const templates = Storage.templates.list();
+      const templates = await Storage.templates.list();
       if (templates.length === 0) {
         container.innerHTML = '<div class="empty-state"><div class="icon">📁</div><p>暂无模板，点击"新建模板"创建或从项目页面保存模板</p></div>';
         return;
@@ -388,7 +400,7 @@ const TemplateList = {
   renderForLoad() {
     const container = document.getElementById('loadTemplateList');
     try {
-      const templates = Storage.templates.list();
+      const templates = await Storage.templates.list();
       if (templates.length === 0) {
         container.innerHTML = '<div class="empty-state"><p>暂无可用模板，请先到"我的模板"中创建</p></div>';
         return;
@@ -420,7 +432,7 @@ const TemplateList = {
 const TemplateActions = {
   use(id) {
     try {
-      const template = Storage.templates.get(id);
+      const template = await Storage.templates.get(id);
       if (!template) { Util.toast('模板不存在', 'error'); return; }
       Document.fill(template.data);
       State.currentProjectId = null;
@@ -435,7 +447,7 @@ const TemplateActions = {
   },
 
   rename(id) {
-    const templates = Storage.templates.list();
+    const templates = await Storage.templates.list();
     const t = templates.find(x => x.id === id);
     if (!t) return;
     document.getElementById('renameTemplateName').value = t.name;
@@ -448,7 +460,7 @@ const TemplateActions = {
     const newName = document.getElementById('renameTemplateName').value.trim();
     if (!newName) { Util.toast('请输入名称', 'error'); return; }
     try {
-      Storage.templates.update(id, { name: newName });
+      await Storage.templates.update(id, { name: newName });
       closeModal('renameTemplateModal');
       TemplateList.render();
       Util.toast('重命名成功', 'success');
@@ -460,7 +472,7 @@ const TemplateActions = {
   remove(id) {
     if (!confirm('确定要删除此模板吗？此操作不可恢复。')) return;
     try {
-      Storage.templates.delete(id);
+      await Storage.templates.delete(id);
       TemplateList.render();
       Util.toast('模板已删除', 'success');
     } catch (err) {
@@ -480,7 +492,7 @@ const TemplateActions = {
     const desc = document.getElementById('newTemplateDesc').value.trim();
     const data = Document.collect();
     try {
-      Storage.templates.create({ name, desc, data });
+      await Storage.templates.create({ name, desc, data });
       closeModal('createTemplateModal');
       Draft.clear();  // 存为模板后清除草稿
       Util.toast('模板保存成功', 'success');
@@ -499,7 +511,7 @@ const ProjectList = {
     const container = document.getElementById('projectList');
 
     try {
-      const projects = Storage.projects.list();
+      const projects = await Storage.projects.list();
       if (projects.length === 0) {
         container.innerHTML = '<div class="empty-state"><div class="icon">📂</div><p>暂无项目，去"新建项目"创建并保存吧</p></div>';
         return;
@@ -509,7 +521,7 @@ const ProjectList = {
       State.selectedProjectId = null;
 
       projects.forEach(p => {
-        const detail = Storage.projects.get(p.id);
+        const detail = await Storage.projects.get(p.id);
         const docDate = (detail && detail.data && detail.data.headerFields && detail.data.headerFields.docDate) || '';
 
         // 搜索时检查是否匹配
@@ -567,7 +579,7 @@ const ProjectList = {
 const ProjectActions = {
   open(id) {
     try {
-      const project = Storage.projects.get(id);
+      const project = await Storage.projects.get(id);
       if (!project) { Util.toast('项目不存在', 'error'); return; }
       Document.fill(project.data);
       State.currentProjectId = project.id;
@@ -585,7 +597,7 @@ const ProjectActions = {
   remove(id) {
     if (!confirm('确定要删除此项目吗？此操作不可恢复。')) return;
     try {
-      Storage.projects.delete(id);
+      await Storage.projects.delete(id);
       ProjectList.render(document.getElementById('searchBox').value);
       Util.toast('项目已删除', 'success');
     } catch (err) {
@@ -599,7 +611,45 @@ const ProjectActions = {
       Util.toast('请先在下方点击选中一个项目', 'error');
       return null;
     }
-    return Storage.projects.get(State.selectedProjectId);
+    return await Storage.projects.get(State.selectedProjectId);
+  },
+
+  /** 导出选中项目为 JPG 照片 */
+  async exportJPG() {
+    const project = this._getSelected();
+    if (!project) return;
+
+    const data = project.data;
+    let rows = data.rows || [];
+    if (State.searchTerm) {
+      rows = rows.filter(r => (r.name || '').toLowerCase().includes(State.searchTerm));
+    }
+
+    const html = Table.buildDocHTML(data, rows);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;';
+    document.body.appendChild(tempDiv);
+
+    try {
+      const canvas = await html2canvas(tempDiv, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = (project.name || '单据') + '.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        Util.toast('JPG 导出成功', 'success');
+      }, 'image/jpeg', 0.95);
+    } catch (err) {
+      console.error('JPG 导出失败:', err);
+      Util.toast('JPG 导出失败', 'error');
+    } finally {
+      document.body.removeChild(tempDiv);
+    }
   },
 
   /** 编辑选中的项目 */
@@ -635,7 +685,7 @@ const ProjectActions = {
     const html = Table.buildDocHTML(data, rows);
     const temp = document.createElement('div');
     temp.innerHTML = html;
-    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:800px;';
+    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;';
     document.body.appendChild(temp);
 
     // 使用 html2canvas + jsPDF
@@ -933,7 +983,7 @@ const Draft = {
     Document.fill(draft.data);
     State.currentProjectId = draft.projectId || null;
     if (draft.projectId) {
-      const project = Storage.projects.get(draft.projectId);
+      const project = await Storage.projects.get(draft.projectId);
       if (project) document.getElementById('projectNameInput').value = project.name || '';
       const docNo = (draft.data.headerFields && draft.data.headerFields.docNo) || '';
       document.getElementById('currentDocId').textContent = docNo ? '编号: ' + docNo : '';

@@ -81,19 +81,23 @@ body::before {
   -webkit-backdrop-filter: blur(8px);
   border-radius: 12px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  padding: 32px 36px;
+  padding: 24px 28px;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 794px;
+  min-height: 1050px;
   border: 1px solid rgba(255,255,255,0.6);
+  display: flex;
+  flex-direction: column;
 }
 .document-paper .doc-title {
   text-align: center;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
+  color: #000;
   letter-spacing: 4px;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #ccc;
   outline: none;
 }
 
@@ -120,37 +124,43 @@ body::before {
   min-width: 100px;
   font-weight: bold;
   padding-top: 4px;
+  color: #111;
+  font-size: 15px;
 }
 .doc-remark-row textarea {
   flex: 1;
   border: none;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed #bbb;
   padding: 4px 6px;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   font-family: inherit;
   background: transparent;
   outline: none;
   resize: vertical;
   min-height: 28px;
   transition: border-color 0.2s;
+  color: #000;
 }
 .doc-remark-row textarea:focus {
   border-bottom-color: #1a73e8;
   border-bottom-style: solid;
 }
 
-.field { display: flex; align-items: center; font-size: 14px; }
-.field label { white-space: nowrap; min-width: 100px; font-weight: bold; }
+.field { display: flex; align-items: center; font-size: 15px; font-weight: 500; color: #000; }
+.field label { white-space: nowrap; min-width: 100px; font-weight: bold; color: #111; }
 .field input, .field textarea {
   flex: 1;
   border: none;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed #bbb;
   padding: 4px 6px;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   font-family: inherit;
   background: transparent;
   outline: none;
   transition: border-color 0.2s;
+  color: #000;
 }
 .field input:focus, .field textarea:focus {
   border-bottom-color: #1a73e8;
@@ -159,30 +169,34 @@ body::before {
 .field textarea { resize: none; height: 28px; }
 
 /* ----- 表格 ----- */
-.table-wrapper { overflow-x: auto; margin: 16px 0; }
-.doc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.doc-table th, .doc-table td { border: 1px solid #999; padding: 6px 4px; text-align: center; }
-.doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; }
+.table-wrapper { overflow-x: auto; margin: 16px 0; flex: 1; }
+.doc-table { width: 100%; border-collapse: collapse; font-size: 15px; color: #000; }
+.doc-table th, .doc-table td { border: 1px solid #999; padding: 8px 4px; text-align: center; height: 36px; line-height: 22px; font-weight: 500; }
+.doc-table td:empty::after { content: '\00a0'; }
+.doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; font-size: 14px; }
 .doc-table td input {
   width: 100%;
   border: none;
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 500;
   font-family: inherit;
   background: transparent;
   outline: none;
   padding: 2px;
+  color: #000;
 }
 .doc-table td input:focus { background: #e8f0fe; }
 
 .doc-table .col-no    { width: 40px; }
-.doc-table .col-name  { width: 160px; }
-.doc-table .col-spec  { width: 100px; }
+.row-num-input { width: 34px !important; }
+.doc-table .col-name  { width: 220px; }
+.doc-table .col-spec  { width: 60px; }
 .doc-table .col-unit  { width: 56px; }
 .doc-table .col-qty   { width: 64px; }
-.doc-table .col-price { width: 72px; }
+.doc-table .col-price { width: 60px; }
 .doc-table .col-amount{ width: 80px; }
-.doc-table .col-remark{ width: 100px; }
+.doc-table .col-remark{ width: 112px; }
 
 .doc-table td.amount-cell {
   font-weight: bold;
@@ -526,105 +540,117 @@ body::before {
 
 /* ----- 平板（≤1024px） ----- */
 @media (max-width: 1024px) {
-  .main-container { max-width: 100%; padding: 12px; }
-  .document-paper { max-width: 100%; padding: 24px 20px; }
-  .toolbar-row { gap: 4px; }
-  .btn { min-width: 80px; height: 32px; font-size: 12px; padding: 0 8px; }
-  .login-box { width: 340px; padding: 32px 24px; }
+  .main-container { max-width: 100%; padding: 16px; }
+  .document-paper { max-width: 100%; padding: 28px 24px; border-radius: 10px; }
+  .toolbar-row { gap: 6px; }
+  .btn { min-width: 84px; height: 34px; font-size: 13px; padding: 0 10px; }
+  .login-box { width: 360px; padding: 36px 28px; }
 }
 
 /* ----- 手机横屏 / 小平板（≤768px） ----- */
 @media (max-width: 768px) {
-  .top-nav { padding: 0 12px; height: 48px; }
-  .top-nav .logo { font-size: 15px; margin-right: 12px; letter-spacing: 0; }
-  .top-nav .nav-tabs li { padding: 0 10px; font-size: 13px; }
+  .top-nav { padding: 0 14px; height: 50px; }
+  .top-nav .logo { font-size: 16px; margin-right: 14px; letter-spacing: 1px; }
+  .top-nav .nav-tabs li { padding: 0 12px; font-size: 13px; }
   #navUsername { display: none; }
 
-  .main-container { padding: 8px; }
+  .main-container { padding: 12px; }
 
-  .document-paper { padding: 16px 12px; border-radius: 8px; }
-  .document-paper .doc-title { font-size: 18px; letter-spacing: 2px; }
+  .document-paper { padding: 20px 16px; border-radius: 10px; min-height: auto; }
+  .document-paper .doc-title { font-size: 20px; letter-spacing: 3px; }
 
-  .doc-header, .doc-footer { grid-template-columns: 1fr; gap: 6px 20px; }
+  .doc-header, .doc-footer { grid-template-columns: 1fr; gap: 8px; }
+  .field { font-size: 14px; }
+  .field label { min-width: 90px; font-size: 13px; }
+  .field input, .field textarea { font-size: 14px; padding: 6px 4px; }
 
-  .toolbar-row { gap: 3px; margin-bottom: 4px; }
-  .toolbar-row + .toolbar-row { margin-bottom: 10px; }
-  .btn { min-width: 64px; height: 30px; font-size: 11px; padding: 0 6px; border-radius: 6px; }
-  .btn-sm { height: 26px; font-size: 10px; padding: 0 6px; }
+  .toolbar-row { gap: 5px; margin-bottom: 6px; flex-wrap: wrap; }
+  .toolbar-row + .toolbar-row { margin-bottom: 12px; }
+  .btn { min-width: 72px; height: 34px; font-size: 12px; padding: 0 8px; border-radius: 7px; }
+  .btn-sm { height: 28px; font-size: 11px; padding: 0 8px; }
 
-  .table-wrapper { margin: 10px -12px; }
-  .doc-table { font-size: 11px; }
-  .doc-table th, .doc-table td { padding: 4px 2px; }
-  .doc-table td input { font-size: 11px; }
+  .table-wrapper { margin: 12px -12px; border-radius: 6px; }
+  .doc-table { font-size: 13px; }
+  .doc-table th, .doc-table td { padding: 6px 3px; height: 34px; }
+  .doc-table td input { font-size: 13px; }
 
-  .doc-total-row { font-size: 14px; }
-  .doc-total-row .total-amount { font-size: 16px; }
+  .doc-total-row { font-size: 15px; padding: 10px 8px 0; }
+  .doc-total-row .total-amount { font-size: 17px; }
 
-  .search-box input { width: 120px; height: 30px; font-size: 11px; }
-  #projectNameInput { width: 100px !important; height: 30px !important; font-size: 11px !important; }
+  .search-box input { width: 130px; height: 34px; font-size: 12px; }
+  #projectNameInput { width: 110px !important; height: 34px !important; font-size: 12px !important; }
 
-  .modal-box { min-width: auto; max-width: 95vw; padding: 16px; }
-  .modal-box h3 { font-size: 16px; }
+  .modal-box { min-width: auto; max-width: 92vw; padding: 20px; border-radius: 12px; }
+  .modal-box h3 { font-size: 17px; }
 
-  .project-grid { gap: 4px; }
-  .project-card { padding: 8px 10px; gap: 8px; }
-  .project-card .card-icon { font-size: 28px; }
-  .project-card .card-name { font-size: 13px; }
-  .project-card .card-meta { font-size: 10px; }
+  .project-grid { gap: 6px; }
+  .project-card { padding: 10px 12px; gap: 10px; border-radius: 8px; }
+  .project-card .card-icon { font-size: 30px; }
+  .project-card .card-name { font-size: 14px; }
+  .project-card .card-meta { font-size: 11px; }
 
-  .card-item { padding: 10px 12px; gap: 8px; }
-  .card-item .card-title { font-size: 13px; }
-  .card-item .card-actions .btn { min-width: auto; font-size: 10px; }
+  .card-item { padding: 12px 14px; gap: 10px; border-radius: 10px; }
+  .card-item .card-title { font-size: 14px; }
 
-  .login-box { width: 300px; padding: 28px 20px; }
-  .login-icon { font-size: 40px; }
-  .login-title { font-size: 20px; }
-  .login-field input { height: 38px; font-size: 13px; }
-  .login-btn { height: 38px; font-size: 14px; }
+  .login-box { width: 320px; padding: 32px 24px; border-radius: 14px; }
+  .login-icon { font-size: 44px; }
+  .login-title { font-size: 21px; }
+  .login-field input { height: 42px; font-size: 14px; }
+  .login-btn { height: 42px; font-size: 15px; }
 
   .preview-container { max-width: 100%; }
-  .preview-close { margin-right: 8px; margin-top: 8px; width: 30px; height: 30px; font-size: 16px; }
+  .preview-close { margin-right: 6px; margin-top: 6px; width: 32px; height: 32px; font-size: 16px; }
+
+  .doc-remark-row { margin-top: 12px; padding-top: 10px; }
+  .doc-remark-row label { font-size: 14px; }
+  .doc-remark-row textarea { font-size: 14px; }
 }
 
 /* ----- 手机竖屏（≤480px） ----- */
 @media (max-width: 480px) {
-  .top-nav { padding: 0 6px; height: 42px; }
-  .top-nav .logo { font-size: 13px; margin-right: 6px; }
-  .top-nav .nav-tabs li { padding: 0 6px; font-size: 11px; }
+  .top-nav { padding: 0 8px; height: 46px; }
+  .top-nav .logo { font-size: 14px; margin-right: 8px; }
+  .top-nav .nav-tabs li { padding: 0 8px; font-size: 12px; }
 
-  .main-container { padding: 4px; }
+  .main-container { padding: 6px; }
 
-  .document-paper { padding: 10px 8px; border-radius: 6px; }
-  .document-paper .doc-title { font-size: 16px; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 8px; }
+  .document-paper { padding: 14px 10px; border-radius: 8px; }
+  .document-paper .doc-title { font-size: 18px; letter-spacing: 2px; margin-bottom: 14px; padding-bottom: 10px; }
 
-  .field { font-size: 12px; }
-  .field label { min-width: auto; font-size: 12px; }
-  .field input, .field textarea { font-size: 12px; }
+  .field { font-size: 13px; }
+  .field label { min-width: 80px; font-size: 12px; }
+  .field input, .field textarea { font-size: 13px; }
 
-  .btn { min-width: 50px; height: 28px; font-size: 10px; padding: 0 5px; border-radius: 5px; gap: 2px; }
-  .btn-sm { height: 24px; font-size: 9px; }
+  .btn { min-width: 56px; height: 32px; font-size: 11px; padding: 0 6px; border-radius: 6px; }
 
-  .doc-table { font-size: 10px; }
-  .doc-table th, .doc-table td { padding: 3px 1px; }
-  .doc-table td input { font-size: 10px; }
-  .doc-table .col-name { width: 80px; }
-  .doc-table .col-spec { width: 60px; }
-  .doc-table .col-unit, .doc-table .col-qty, .doc-table .col-price, .doc-table .col-amount { width: 40px; }
+  .doc-table { font-size: 12px; }
+  .doc-table th, .doc-table td { padding: 5px 2px; height: 32px; }
+  .doc-table td input { font-size: 12px; }
+  .doc-table .col-name { width: 90px; }
+  .doc-table .col-spec { width: 50px; }
+  .doc-table .col-unit, .doc-table .col-qty, .doc-table .col-price, .doc-table .col-amount { width: 38px; }
+  .doc-table .col-remark { width: 70px; }
 
-  .doc-total-row { font-size: 13px; }
-  .doc-total-row .total-amount { font-size: 15px; }
+  .doc-total-row { font-size: 14px; }
+  .doc-total-row .total-amount { font-size: 16px; }
 
-  .search-box input { width: 90px; height: 28px; font-size: 10px; }
-  #projectNameInput { width: 80px !important; height: 28px !important; font-size: 10px !important; }
+  .search-box input { width: 100px; height: 32px; font-size: 11px; }
+  #projectNameInput { width: 90px !important; height: 32px !important; font-size: 11px !important; }
 
-  .login-box { width: 280px; padding: 24px 16px; }
-  .login-title { font-size: 18px; }
-  .login-subtitle { font-size: 12px; }
+  .login-box { width: 290px; padding: 28px 18px; border-radius: 12px; }
+  .login-title { font-size: 19px; }
+  .login-subtitle { font-size: 13px; }
+  .login-field input { height: 40px; font-size: 13px; }
+  .login-btn { height: 40px; font-size: 14px; }
+
+  .project-card { padding: 8px 10px; border-radius: 7px; }
+  .project-card .card-icon { font-size: 26px; }
+  .project-card .card-name { font-size: 13px; }
 
   .preview-close { width: 28px; height: 28px; font-size: 14px; }
   .preview-overlay { padding: 8px; }
 
   .doc-remark-row { margin-top: 10px; padding-top: 8px; }
-  .doc-remark-row label { min-width: auto; font-size: 12px; }
-  .doc-remark-row textarea { font-size: 12px; }
+  .doc-remark-row label { min-width: auto; font-size: 13px; }
+  .doc-remark-row textarea { font-size: 13px; }
 }
