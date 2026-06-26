@@ -384,7 +384,7 @@ const TemplateList = {
           </div>
         </div>`).join('');
 
-      container.onclick = (e) => {
+      container.onclick = async (e) => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
         const id = btn.dataset.id;
@@ -414,7 +414,7 @@ const TemplateList = {
           <button class="btn btn-primary btn-sm">引用</button>
         </div>`).join('');
 
-      container.onclick = (e) => {
+      container.onclick = async (e) => {
         const card = e.target.closest('.card-item[data-action="load"]');
         if (!card) return;
         TemplateActions.use(card.dataset.id);
@@ -520,7 +520,7 @@ const ProjectList = {
       container.innerHTML = '';
       State.selectedProjectId = null;
 
-      projects.forEach(p => {
+      projects.forEach(async p => {
         const detail = await Storage.projects.get(p.id);
         const docDate = (detail && detail.data && detail.data.headerFields && detail.data.headerFields.docDate) || '';
 
@@ -544,7 +544,7 @@ const ProjectList = {
       });
 
       // 点击选中
-      container.onclick = (e) => {
+      container.onclick = async (e) => {
         const card = e.target.closest('.project-card');
         if (!card) return;
 
@@ -562,7 +562,7 @@ const ProjectList = {
       };
 
       // 双击打开
-      container.ondblclick = (e) => {
+      container.ondblclick = async (e) => {
         const card = e.target.closest('.project-card');
         if (!card) return;
         ProjectActions.open(card.dataset.id);
@@ -967,7 +967,7 @@ const Draft = {
 // ===================================================================
 // 启动
 // ===================================================================
-(function init() {
+(async function init() {
   // 显示当前用户名
   const user = Auth.currentUser();
   if (user) {
