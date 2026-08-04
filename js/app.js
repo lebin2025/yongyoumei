@@ -177,7 +177,7 @@ const Document = {
       docTitle: '送 货 单',
       headerFields: { docNo: '', docDate: '', customerName: '', customerPhone: '', contactPerson: '', address: '' },
       rows: [],
-      footerFields: { remark: '', contactPhone: '', contactPerson2: '', bankAccount: '', footerAddress: '' }
+      footerFields: { remark: '', contactPhone: '15361164187', contactPerson2: '郑生', bankAccount: '44636501040011560', footerAddress: '吴川市黄坡车站万家灯火店' }
     });
     const d = document.querySelector('#docHeader [data-field="docDate"]');
     if (d) d.value = new Date().toISOString().split('T')[0];
@@ -252,14 +252,14 @@ const Table = {
       const num = r.num || (i < 5 ? i + 1 : '');
       const hasNum = num !== '';
       return `<tr>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:40px;">${num}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:220px;">${Util.escapeHtml(r.name)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.spec)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:56px;">${Util.escapeHtml(r.unit)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:64px;">${Util.escapeHtml(r.qty)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:60px;">${Util.escapeHtml(r.price)}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-weight:bold;color:#d32f2f;font-size:20px;width:80px;">${hasNum ? amt.toFixed(2) : ''}</td>
-        <td style="border:1px solid #999;padding:8px 4px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:112px;">${Util.escapeHtml(r.remark)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:50px;">${num}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;">${Util.escapeHtml(r.name)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:140px;">${Util.escapeHtml(r.spec)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:90px;">${Util.escapeHtml(r.unit)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:90px;">${Util.escapeHtml(r.qty)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:120px;">${Util.escapeHtml(r.price)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-weight:bold;color:#000;font-size:20px;width:140px;">${hasNum ? amt.toFixed(2) : ''}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:120px;">${Util.escapeHtml(r.remark)}</td>
       </tr>`;
     }).join('');
   },
@@ -275,36 +275,36 @@ const Table = {
     };
     const footerLabels = { contactPhone: '联系电话', contactPerson2: '联系人', bankAccount: '农行账号', footerAddress: '地址' };
 
-    return `<div style="padding:20px 18px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;width:794px;min-height:1050px;color:#000;">
-      <div style="text-align:center;font-size:26px;font-weight:bold;letter-spacing:4px;margin-bottom:20px;padding-bottom:12px;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-bottom:16px;font-size:20px;font-weight:500;color:#000;">
+    return `<div style="padding:28px 40px;font-family:'Microsoft YaHei','PingFang SC',sans-serif;width:100%;min-height:800px;color:#000;background:#fff;">
+      <div style="text-align:center;font-size:28px;font-weight:bold;letter-spacing:6px;margin-bottom:20px;padding-bottom:12px;color:#000;">${Util.escapeHtml(data.docTitle)}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;margin-bottom:16px;font-size:20px;font-weight:500;color:#000;">
         ${Object.keys(data.headerFields || {}).map(k => {
           const val = k === 'docDate' ? Util.formatDate(data.headerFields[k]) : data.headerFields[k];
-          return `<div><strong style="color:#111;">${headerLabels[k] || k}：</strong>${Util.escapeHtml(val || '')}</div>`;
+          return `<div style="display:flex;align-items:baseline;gap:20px;"><strong style="min-width:150px;text-align:left;color:#000;font-size:20px;line-height:1.6;">${headerLabels[k] || k}：</strong><span style="flex:1;border-bottom:1px dashed #999;padding:0 12px 4px 12px;line-height:1.6;">${Util.escapeHtml(val || '')}</span></div>`;
         }).join('')}
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:20px;color:#000;margin:16px 0;">
-        <thead><tr style="background:#e8edf3;">
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:40px;">序号</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:200px;">商品全名</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">规格型号</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:56px;">单位</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:64px;">数量</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:60px;">单价(元)</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:80px;">金额(元)</th>
-          <th style="border:1px solid #999;padding:8px 4px;height:42px;font-size:15px;font-weight:bold;color:#1a73e8;width:112px;">备注</th>
+        <thead><tr style="background:#f0f0f0;">
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:50px;">序号</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;">商品全名</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:140px;">规格型号</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:90px;">单位</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:90px;">数量</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:120px;">单价(元)</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:140px;">金额(元)</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:120px;">备注</th>
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
       <div style="text-align:right;font-size:20px;font-weight:bold;margin-top:12px;padding-top:8px;color:#000;">
-        合计金额：<span style="color:#d32f2f;font-size:18px;">${Util.formatMoney(total)}</span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;margin-top:16px;font-size:20px;font-weight:500;color:#000;">
+        合计金额：<span style="color:#000;font-size:20px;">${Util.formatMoney(total)}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;margin-top:16px;font-size:20px;font-weight:500;color:#000;">
         ${Object.keys(data.footerFields || {}).filter(k => k !== 'remark').map(k =>
-          `<div><strong style="color:#111;">${footerLabels[k] || k}：</strong>${Util.escapeHtml(data.footerFields[k] || '')}</div>`
+          `<div style="display:flex;align-items:baseline;gap:20px;"><strong style="min-width:150px;text-align:left;color:#000;font-size:20px;line-height:1.6;">${footerLabels[k] || k}：</strong><span style="flex:1;border-bottom:1px dashed #999;padding:0 12px 4px 12px;line-height:1.6;">${Util.escapeHtml(data.footerFields[k] || '')}</span></div>`
         ).join('')}
       </div>
-      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:20px;font-weight:500;color:#000;">
-        <strong style="color:#111;">注：</strong>${Util.escapeHtml((data.footerFields && data.footerFields.remark) || '').replace(/\n/g, '<br>')}
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #ddd;font-size:20px;font-weight:500;color:#000;display:flex;align-items:baseline;gap:20px;">
+        <strong style="min-width:150px;text-align:left;color:#000;font-size:20px;line-height:1.6;">注：</strong><span style="flex:1;border-bottom:1px dashed #999;padding:0 12px 4px 12px;line-height:1.6;">${Util.escapeHtml((data.footerFields && data.footerFields.remark) || '').replace(/\n/g, '<br>')}</span>
       </div></div>`;
   }
 };
@@ -627,7 +627,7 @@ const ProjectActions = {
     const html = Table.buildDocHTML(data, rows);
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
-    tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;';
+    tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;width:1400px;';
     document.body.appendChild(tempDiv);
 
     try {
@@ -684,7 +684,7 @@ const ProjectActions = {
     const html = Table.buildDocHTML(data, rows);
     const temp = document.createElement('div');
     temp.innerHTML = html;
-    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;';
+    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:1400px;';
     document.body.appendChild(temp);
 
     // 使用 html2canvas + jsPDF
@@ -698,7 +698,7 @@ const ProjectActions = {
       .then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdf = new jsPDF('l', 'mm', 'a4');
         const pw = pdf.internal.pageSize.getWidth();
         const ph = pdf.internal.pageSize.getHeight();
         const iw = pw - 20;

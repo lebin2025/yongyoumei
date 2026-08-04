@@ -68,43 +68,45 @@ body::before {
 .top-nav .nav-tabs li.active { border-bottom-color: #1a73e8; font-weight: bold; color: #1a73e8; }
 
 /* ----- 主容器 ----- */
-.main-container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+.main-container { max-width: 100%; margin: 0 auto; padding: 16px 24px; }
 
 /* ----- 视图切换 ----- */
 .view { display: none; }
 .view.active { display: block; }
 
 /* ----- 单据纸张 ----- */
+/* ----- 单据纸张（横向宽版） ----- */
 .document-paper {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 12px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  padding: 20px 18px;
+  padding: 28px 40px;
   margin: 0 auto;
-  max-width: 794px;
-  min-height: 1050px;
+  max-width: 100%;
+  width: 100%;
+  min-height: 800px;
   border: 1px solid rgba(255,255,255,0.6);
   display: flex;
   flex-direction: column;
 }
 .document-paper .doc-title {
   text-align: center;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: bold;
   color: #000;
-  letter-spacing: 4px;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
+  letter-spacing: 6px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
   outline: none;
 }
 
-/* ----- 头部 / 底部字段网格 ----- */
+/* ----- 头部 / 底部字段网格（3行×2列） ----- */
 .doc-header, .doc-footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px 40px;
+  gap: 20px 40px;
   margin-bottom: 16px;
 }
 .doc-footer { margin-top: 16px; margin-bottom: 0; }
@@ -112,26 +114,30 @@ body::before {
 /* 备注：独占一行 */
 .doc-remark-row {
   display: flex;
-  align-items: flex-start;
-  font-size: 14px;
+  align-items: baseline;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
   margin-top: 16px;
   padding-top: 12px;
   border-top: 1px solid #ddd;
+  gap: 20px;
 }
 .doc-remark-row label {
   white-space: nowrap;
-  min-width: 100px;
+  min-width: 150px;
   font-weight: bold;
-  padding-top: 4px;
-  color: #111;
-  font-size: 16px;
+  color: #000;
+  font-size: 20px;
+  text-align: left;
+  line-height: 1.6;
 }
 .doc-remark-row textarea {
   flex: 1;
   border: none;
-  border-bottom: 1px dashed #bbb;
-  padding: 4px 6px;
-  font-size: 16px;
+  border-bottom: 1px dashed #999;
+  padding: 0 12px 4px 12px;
+  font-size: 20px;
   font-weight: 500;
   font-family: inherit;
   background: transparent;
@@ -140,19 +146,20 @@ body::before {
   min-height: 28px;
   transition: border-color 0.2s;
   color: #000;
+  line-height: 1.6;
 }
 .doc-remark-row textarea:focus {
   border-bottom-color: #1a73e8;
   border-bottom-style: solid;
 }
 
-.field { display: flex; align-items: center; font-size: 16px; font-weight: 500; color: #000; }
-.field label { white-space: nowrap; min-width: 100px; font-weight: bold; color: #111; }
+.field { display: flex; align-items: baseline; font-size: 20px; font-weight: 500; color: #000; gap: 20px; }
+.field label { white-space: nowrap; min-width: 150px; font-weight: bold; color: #000; font-size: 20px; text-align: left; }
 .field input, .field textarea {
   flex: 1;
   border: none;
-  border-bottom: 1px dashed #bbb;
-  padding: 4px 6px;
+  border-bottom: 1px dashed #999;
+  padding: 0 12px 4px 12px;
   font-size: 20px;
   font-weight: 500;
   font-family: inherit;
@@ -160,6 +167,7 @@ body::before {
   outline: none;
   transition: border-color 0.2s;
   color: #000;
+  line-height: 1.6;
 }
 .field input:focus, .field textarea:focus {
   border-bottom-color: #1a73e8;
@@ -170,9 +178,9 @@ body::before {
 /* ----- 表格 ----- */
 .table-wrapper { overflow-x: auto; margin: 16px 0; flex: 1; }
 .doc-table { width: 100%; border-collapse: collapse; font-size: 20px; color: #000; }
-.doc-table th, .doc-table td { border: 1px solid #999; padding: 8px 4px; text-align: center; height: 38px; line-height: 24px; font-weight: 500; }
+.doc-table th, .doc-table td { border: 1px solid #999; padding: 10px 6px; text-align: center; height: 42px; line-height: 24px; font-weight: 500; }
 .doc-table td:empty::after { content: '\00a0'; }
-.doc-table th { background: rgba(26,115,232,0.06); font-weight: bold; white-space: nowrap; color: #1a73e8; font-size: 15px; }
+.doc-table th { background: rgba(0,0,0,0.04); font-weight: bold; white-space: nowrap; color: #000; font-size: 16px; }
 .doc-table td input {
   width: 100%;
   border: none;
@@ -187,19 +195,19 @@ body::before {
 }
 .doc-table td input:focus { background: #e8f0fe; }
 
-.doc-table .col-no    { width: 40px; }
-.row-num-input { width: 34px !important; }
-.doc-table .col-name  { width: 200px; }
-.doc-table .col-spec  { width: 80px; }
-.doc-table .col-unit  { width: 56px; }
-.doc-table .col-qty   { width: 64px; }
-.doc-table .col-price { width: 60px; }
-.doc-table .col-amount{ width: 80px; }
-.doc-table .col-remark{ width: 112px; }
+.doc-table .col-no    { width: 50px; }
+.row-num-input { width: 40px !important; }
+.doc-table .col-name  { width: auto; min-width: 360px; }
+.doc-table .col-spec  { width: 140px; }
+.doc-table .col-unit  { width: 90px; }
+.doc-table .col-qty   { width: 90px; }
+.doc-table .col-price { width: 120px; }
+.doc-table .col-amount{ width: 140px; }
+.doc-table .col-remark{ width: 120px; }
 
 .doc-table td.amount-cell {
   font-weight: bold;
-  color: #d32f2f;
+  color: #000;
   background: #fafafa;
 }
 
@@ -212,7 +220,7 @@ body::before {
   padding-top: 8px;
   border-top: 2px solid #333;
 }
-.doc-total-row .total-amount { color: #d32f2f; font-size: 18px; }
+.doc-total-row .total-amount { color: #000; font-size: 20px; }
 
 /* ----- 通用按钮（毛玻璃质感） ----- */
 .btn {
@@ -389,17 +397,18 @@ body::before {
   z-index: 300;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
+  padding: 20px 10px;
   overflow-y: auto;
 }
 .preview-overlay.show { display: flex; }
 .preview-container {
-  background: rgba(255,255,255,0.95);
-  border-radius: 8px;
-  max-width: 950px;
+  background: transparent;
+  border-radius: 0;
+  max-width: 1400px;
   width: 100%;
   margin: 20px auto;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  box-shadow: none;
+  padding: 0;
 }
 .preview-close {
   position: sticky;
