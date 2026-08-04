@@ -174,7 +174,7 @@ const Document = {
   /** 重置为空白单据 */
   reset() {
     this.fill({
-      docTitle: '送 货 单',
+      docTitle: '拥有美灯饰',
       headerFields: { docNo: '', docDate: '', customerName: '', customerPhone: '', contactPerson: '', address: '' },
       rows: [],
       footerFields: { remark: '', contactPhone: '15361164187', contactPerson2: '郑生', bankAccount: '44636501040011560', footerAddress: '吴川市黄坡车站万家灯火店' }
@@ -627,7 +627,7 @@ const ProjectActions = {
     const html = Table.buildDocHTML(data, rows);
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
-    tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;width:1400px;';
+    tempDiv.style.cssText = 'position:absolute;left:-9999px;top:0;width:1600px;';
     document.body.appendChild(tempDiv);
 
     try {
@@ -684,7 +684,7 @@ const ProjectActions = {
     const html = Table.buildDocHTML(data, rows);
     const temp = document.createElement('div');
     temp.innerHTML = html;
-    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:1400px;';
+    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:1600px;';
     document.body.appendChild(temp);
 
     // 使用 html2canvas + jsPDF
