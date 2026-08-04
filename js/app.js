@@ -174,7 +174,7 @@ const Document = {
   /** 重置为空白单据 */
   reset() {
     this.fill({
-      docTitle: '送 货 单',
+      docTitle: '拥有美灯饰',
       headerFields: { docNo: '', docDate: '', customerName: '', customerPhone: '', contactPerson: '', address: '' },
       rows: [],
       footerFields: { remark: '', contactPhone: '15361164187', contactPerson2: '郑生', bankAccount: '44636501040011560', footerAddress: '吴川市黄坡车站万家灯火店' }
@@ -313,9 +313,24 @@ const Table = {
 // 预览
 // ===================================================================
 const Preview = {
-  async open(data, rows) {
-    document.getElementById('previewContent').innerHTML =
-      Table.buildDocHTML(data, rows || data.rows);
+  open(data, rows) {
+    // 直接克隆当前表单 DOM，保证预览和编辑一模一样
+    const paper = document.getElementById('documentPaper');
+    const clone = paper.cloneNode(true);
+    // 去掉 contenteditable，让标题不可编辑
+    const titleEl = clone.querySelector('.doc-title');
+    if (titleEl) titleEl.removeAttribute('contenteditable');
+    // 让所有输入框只读
+    clone.querySelectorAll('input, textarea').forEach(el => {
+      el.readOnly = true;
+      el.style.pointerEvents = 'none';
+    });
+    clone.querySelectorAll('.doc-title, [data-field]').forEach(el => {
+      el.style.outline = 'none';
+    });
+    const container = document.getElementById('previewContent');
+    container.innerHTML = '';
+    container.appendChild(clone);
     document.getElementById('previewOverlay').classList.add('show');
   },
 
