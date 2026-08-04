@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>单据模板录入系统</title>
+
+<!-- 样式表 -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- CDN 依赖：Excel 导入导出 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- CDN 依赖：PDF 导出 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<!-- Toast 消息 -->
+<div class="toast" id="toast"></div>
+
+<!-- ========== 登录覆盖层 ========== -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-icon">📋</div>
+    <h2 class="login-title">单据模板系统</h2>
+    <p class="login-subtitle">登录以管理您的模板和项目</p>
+
+    <!-- 登录表单 -->
+    <form id="loginForm" autocomplete="off">
+      <div class="login-field">
+        <input type="text" id="loginUsername" placeholder="用户名 4-16位（字母/中文/数字）" maxlength="16" required autocomplete="off">
+      </div>
+      <div class="login-field">
+        <input type="password" id="loginPassword" placeholder="密码 6-20位（必须字母+数字）" maxlength="20" required autocomplete="off">
+      </div>
+      <p class="login-error" id="loginError"></p>
+      <button type="submit" class="btn btn-primary login-btn">登 录</button>
+    </form>
+
+    <!-- 注册表单 -->
+    <form id="registerForm" autocomplete="off" style="display:none;">
+      <div class="login-field">
+        <input type="text" id="regUsername" placeholder="设置用户名 4-16位（字母/中文/数字）" maxlength="16" required autocomplete="off">
+      </div>
+      <div class="login-field">
+        <input type="password" id="regPassword" placeholder="设置密码 6-20位（必须字母+数字）" maxlength="20" required autocomplete="off">
+      </div>
+      <div class="login-field">
+        <input type="password" id="regPassword2" placeholder="确认密码" required autocomplete="off">
+      </div>
+      <p class="login-error" id="regError"></p>
+      <button type="submit" class="btn btn-success login-btn">注 册</button>
+    </form>
+
+    <p class="login-switch">
+      <span id="switchToRegister">没有账号？<a href="#">立即注册</a></span>
+      <span id="switchToLogin" style="display:none;">已有账号？<a href="#">返回登录</a></span>
+    </p>
+  </div>
+</div>
+
+<!-- ========== 顶部导航栏 ========== -->
+<nav class="top-nav">
+  <div class="logo">📋 单据模板系统</div>
+  <ul class="nav-tabs" id="navTabs">
+    <li class="active" data-view="newProject">📝 新建项目</li>
+    <li data-view="myTemplates">📁 我的模板</li>
+    <li data-view="myProjects">📂 我的项目</li>
+  </ul>
+  <span style="margin-left:auto;font-size:13px;opacity:0.7;" id="navUsername"></span>
+  <button class="btn btn-sm btn-outline" onclick="logout()" style="margin-left:12px;min-width:auto;">🚪 登出</button>
+</nav>
+
+
+<!-- ========== 主容器 ========== -->
+<div class="main-container">
+
+  <!-- ===== 视图 1：新建项目 ===== -->
+  <div class="view active" id="view-newProject">
+    <div class="toolbar-row">
+      <button class="btn btn-primary" onclick="newDocument()">🆕 新建</button>
+      <button class="btn btn-outline" onclick="openModal('loadTemplateModal');TemplateList.renderForLoad();">📋 引用模板</button>
+      <button class="btn btn-success" onclick="TemplateActions.saveCurrent()">💾 存为模板</button>
+      <button class="btn btn-primary" onclick="saveProject()">✅ 保存项目</button>
+      <span style="font-size:13px;color:#888;margin-left:auto;" id="currentDocId"></span>
+      <input type="text" id="projectNameInput" placeholder="项目名称" style="height:34px;padding:0 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;width:140px;font-family:inherit;outline:none;">
+      <div class="search-box">
+        <input type="text" id="tableSearchBox" placeholder="🔍 商品名称/规格...">
+      </div>
+    </div>
+    <div class="toolbar-row">
+      <button class="btn btn-success" onclick="Table.addRow()">＋ 增加一行</button>
+      <button class="btn btn-danger" onclick="Table.removeLast()">－ 减少一行</button>
+      <button class="btn btn-primary" onclick="Preview.open(Document.collect())">👁 预览</button>
+      <button class="btn btn-warning" onclick="ExcelImport.trigger()">📥 导入Excel</button>
+      <input type="file" id="excelFileInput" accept=".xlsx,.xls" style="display:none">
+    </div>
+
+    <!-- 单据纸张 -->
+    <div class="document-paper" id="documentPaper">
+      <!-- 单据标题（可编辑） -->
+      <div class="doc-title" contenteditable="true" id="docTitle">送 货 单</div>
+
+      <!-- 头部信息 -->
+      <div class="doc-header" id="docHeader">
+        <div class="field"><label>单据编号：</label><input type="text" placeholder="如: DD-2024-001" data-field="docNo"></div>
+        <div class="field"><label>录单日期：</label><input type="date" data-field="docDate"></div>
+        <div class="field"><label>客户名称：</label><input type="text" placeholder="请输入客户名称" data-field="customerName"></div>
+        <div class="field"><label>客户联系电话：</label><input type="text" placeholder="请输入客户联系电话" data-field="customerPhone"></div>
+        <div class="field"><label>客户联系人：</label><input type="text" placeholder="请输入客户联系人" data-field="contactPerson"></div>
+        <div class="field"><label>客户地址：</label><input type="text" placeholder="请输入客户地址" data-field="address"></div>
+      </div>
+
+      <!-- 商品表格 -->
+      <div class="table-wrapper">
+        <table class="doc-table" id="docTable">
+          <thead>
+            <tr>
+              <th class="col-no">序号</th>
+              <th class="col-name">商品全名</th>
+              <th class="col-spec">规格型号</th>
+              <th class="col-unit">单位</th>
+              <th class="col-qty">数量</th>
+              <th class="col-price">单价(元)</th>
+              <th class="col-amount">金额(元)</th>
+              <th class="col-remark">备注</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- 合计 -->
+      <div class="doc-total-row">
+        合计金额：<span class="total-amount" id="totalAmount">¥0.00</span>
+      </div>
+
+      <!-- 底部信息 -->
+      <div class="doc-footer" id="docFooter">
+        <div class="field"><label>联系电话：</label><input type="text" placeholder="联系电话" data-field="contactPhone"></div>
+        <div class="field"><label>联系人：</label><input type="text" placeholder="联系人" data-field="contactPerson2"></div>
+        <div class="field"><label>农行账号：</label><input type="text" placeholder="农行账号" data-field="bankAccount"></div>
+        <div class="field"><label>地址：</label><input type="text" placeholder="地址" data-field="footerAddress"></div>
+      </div>
+
+      <!-- 注：独立一行 -->
+      <div class="doc-remark-row">
+        <label>注：</label>
+        <textarea placeholder="请输入备注信息" data-field="remark" id="remarkTextarea"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 视图 2：我的模板 ===== -->
+  <div class="view" id="view-myTemplates">
+    <div class="toolbar-row">
+      <button class="btn btn-primary"
+              onclick="TemplateActions.saveCurrent()">＋ 新建模板</button>
+      <span class="spacer"></span>
+    </div>
+    <div class="card-list" id="templateList">
+      <div class="empty-state"><div class="icon">📁</div><p>加载中...</p></div>
+    </div>
+  </div>
+
+  <!-- ===== 视图 3：我的项目 ===== -->
+  <div class="view" id="view-myProjects">
+    <div class="toolbar-row">
+      <button class="btn btn-warning"
+              onclick="ProjectActions.exportPDF()">📄 导出PDF</button>
+      <button class="btn btn-success"
+              onclick="ProjectActions.exportExcel()">📊 导出Excel</button>
+      <button class="btn btn-primary"
+              onclick="ProjectActions.preview()">👁 预览</button>
+      <button class="btn btn-outline"
+              onclick="ProjectActions.exportJPG()">🖼 导出照片</button>
+      <button class="btn btn-outline"
+              onclick="ProjectActions.openSelected()">📝 编辑</button>
+      <button class="btn btn-danger"
+              onclick="ProjectActions.removeSelected()">🗑 删除</button>
+      <span class="spacer"></span>
+      <div class="search-box">
+        <input type="text" id="searchBox" placeholder="🔍 按商品全名搜索...">
+      </div>
+    </div>
+    <div class="card-list" id="projectList">
+      <div class="empty-state"><div class="icon">📂</div><p>加载中...</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== 模态框：引用模板 ========== -->
+<div class="modal-overlay" id="loadTemplateModal">
+  <div class="modal-box">
+    <h3>📋 选择模板</h3>
+    <div class="card-list" id="loadTemplateList">
+      <div class="empty-state"><p>加载中...</p></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('loadTemplateModal')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 模态框：新建模板 ========== -->
+<div class="modal-overlay" id="createTemplateModal">
+  <div class="modal-box">
+    <h3>📁 新建模板</h3>
+    <div class="form-group">
+      <label>模板名称</label>
+      <input type="text" id="newTemplateName" placeholder="请输入模板名称">
+    </div>
+    <div class="form-group">
+      <label>备注描述</label>
+      <textarea id="newTemplateDesc" placeholder="可选：描述模板用途" rows="2"></textarea>
+    </div>
+    <p style="font-size:13px;color:#888;">将保存当前填写的内容作为模板</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('createTemplateModal')">取消</button>
+      <button class="btn btn-primary" onclick="TemplateActions.createFromCurrent()">确认创建</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 模态框：重命名模板 ========== -->
+<div class="modal-overlay" id="renameTemplateModal">
+  <div class="modal-box">
+    <h3>✏️ 重命名模板</h3>
+    <div class="form-group">
+      <label>模板名称</label>
+      <input type="text" id="renameTemplateName">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('renameTemplateModal')">取消</button>
+      <button class="btn btn-primary" onclick="TemplateActions.confirmRename()">确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 预览覆盖层 ========== -->
+<div class="preview-overlay" id="previewOverlay">
+  <div style="max-width:950px;width:100%;margin:20px auto;">
+    <button class="preview-close" onclick="Preview.close()">✕</button>
+    <div class="preview-container" id="previewContent"></div>
+  </div>
+</div>
+
+<!-- ===== JavaScript（顺序加载） ===== -->
+<!-- 0. Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- 0. Supabase 配置 -->
+<script src="js/supabase-config.js"></script>
+<!-- 1. 登录 / 注册 -->
+<script src="js/login.js"></script>
+<!-- 2. 数据持久化层 -->
+<script src="js/storage.js"></script>
+<!-- 3. 前端应用逻辑 -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
