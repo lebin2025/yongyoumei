@@ -313,24 +313,9 @@ const Table = {
 // 预览
 // ===================================================================
 const Preview = {
-  open(data, rows) {
-    // 直接克隆当前表单 DOM，保证预览和编辑一模一样
-    const paper = document.getElementById('documentPaper');
-    const clone = paper.cloneNode(true);
-    // 去掉 contenteditable，让标题不可编辑
-    const titleEl = clone.querySelector('.doc-title');
-    if (titleEl) titleEl.removeAttribute('contenteditable');
-    // 让所有输入框只读
-    clone.querySelectorAll('input, textarea').forEach(el => {
-      el.readOnly = true;
-      el.style.pointerEvents = 'none';
-    });
-    clone.querySelectorAll('.doc-title, [data-field]').forEach(el => {
-      el.style.outline = 'none';
-    });
-    const container = document.getElementById('previewContent');
-    container.innerHTML = '';
-    container.appendChild(clone);
+  async open(data, rows) {
+    document.getElementById('previewContent').innerHTML =
+      Table.buildDocHTML(data, rows || data.rows);
     document.getElementById('previewOverlay').classList.add('show');
   },
 
