@@ -115,11 +115,10 @@ const Document = {
       rows.push({
         num:    numInput ? numInput.value : '',
         name:   inputs[0]?.value || '',
-        spec:   inputs[1]?.value || '',
-        unit:   inputs[2]?.value || '',
-        qty:    inputs[3]?.value || '',
-        price:  inputs[4]?.value || '',
-        remark: inputs[5]?.value || ''
+        unit:   inputs[1]?.value || '',
+        qty:    inputs[2]?.value || '',
+        price:  inputs[3]?.value || '',
+        remark: inputs[4]?.value || ''
       });
     });
 
@@ -203,7 +202,6 @@ const Table = {
     tr.innerHTML = `
       <td class="col-no"><input type="text" class="row-num-input" placeholder="" value="${Util.escapeHtml(rowNum)}" style="text-align:center;"></td>
       <td class="col-name"><input type="text" placeholder="商品名称" value="${Util.escapeHtml(data?.name || '')}"></td>
-      <td class="col-spec"><input type="text" placeholder="规格型号" value="${Util.escapeHtml(data?.spec || '')}"></td>
       <td class="col-unit"><input type="text" placeholder="单位" value="${Util.escapeHtml(data?.unit || '')}"></td>
       <td class="col-qty"><input type="number" placeholder="数量" value="${Util.escapeHtml(data?.qty || '')}" min="0" step="any"></td>
       <td class="col-price"><input type="number" placeholder="单价" value="${Util.escapeHtml(data?.price || '')}" min="0" step="0.01"></td>
@@ -212,8 +210,8 @@ const Table = {
     `;
     tbody.appendChild(tr);
 
-    const qtyInput = tr.querySelectorAll('input:not(.row-num-input)')[3];
-    const priceInput = tr.querySelectorAll('input:not(.row-num-input)')[4];
+    const qtyInput = tr.querySelectorAll('input:not(.row-num-input)')[2];
+    const priceInput = tr.querySelectorAll('input:not(.row-num-input)')[3];
     const numInput = tr.querySelector('.row-num-input');
     const handler = () => Table.refresh();
     qtyInput.addEventListener('input', handler);
@@ -236,8 +234,8 @@ const Table = {
       if (numInput && !numInput.value && i < 5) numInput.value = i + 1;
       const hasNum = !!(numInput && numInput.value.trim());
       const inputs = tr.querySelectorAll('input:not(.row-num-input)');
-      const qty = parseFloat(inputs[3]?.value) || 0;
-      const price = parseFloat(inputs[4]?.value) || 0;
+      const qty = parseFloat(inputs[2]?.value) || 0;
+      const price = parseFloat(inputs[3]?.value) || 0;
       const amount = qty * price;
       tr.querySelector('.amount-cell').textContent = hasNum ? amount.toFixed(2) : '';
       if (hasNum) total += amount;
@@ -254,12 +252,11 @@ const Table = {
       return `<tr>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:50px;">${num}</td>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;">${Util.escapeHtml(r.name)}</td>
-        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:140px;">${Util.escapeHtml(r.spec)}</td>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:90px;">${Util.escapeHtml(r.unit)}</td>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:90px;">${Util.escapeHtml(r.qty)}</td>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:120px;">${Util.escapeHtml(r.price)}</td>
         <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-weight:bold;color:#000;font-size:20px;width:140px;">${hasNum ? amt.toFixed(2) : ''}</td>
-        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:120px;">${Util.escapeHtml(r.remark)}</td>
+        <td style="border:1px solid #999;padding:10px 6px;text-align:center;height:42px;font-size:20px;font-weight:500;color:#000;width:260px;">${Util.escapeHtml(r.remark)}</td>
       </tr>`;
     }).join('');
   },
@@ -287,12 +284,11 @@ const Table = {
         <thead><tr style="background:#f0f0f0;">
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:50px;">序号</th>
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;">商品全名</th>
-          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:140px;">规格型号</th>
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:90px;">单位</th>
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:90px;">数量</th>
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:120px;">单价(元)</th>
           <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:140px;">金额(元)</th>
-          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:120px;">备注</th>
+          <th style="border:1px solid #999;padding:10px 6px;height:42px;font-size:16px;font-weight:bold;color:#000;width:260px;">备注</th>
         </tr></thead>
         <tbody>${this.buildHTML(r)}</tbody>
       </table>
@@ -743,19 +739,19 @@ const ProjectActions = {
       return;
     }
 
-    const excelData = [['序号', '商品全名', '规格型号', '单位', '数量', '单价(元)', '金额(元)', '备注']];
+    const excelData = [['序号', '商品全名', '单位', '数量', '单价(元)', '金额(元)', '备注']];
     let totalAmount = 0;
     rows.forEach((r, i) => {
       const qty = parseFloat(r.qty) || 0;
       const price = parseFloat(r.price) || 0;
       const amt = qty * price;
       totalAmount += amt;
-      excelData.push([i + 1, r.name || '', r.spec || '', r.unit || '', qty, price, amt, r.remark || '']);
+      excelData.push([i + 1, r.name || '', r.unit || '', qty, price, amt, r.remark || '']);
     });
-    excelData.push(['', '', '', '', '', '合计', totalAmount, '']);
+    excelData.push(['', '', '', '', '合计', totalAmount, '']);
 
     const ws = XLSX.utils.aoa_to_sheet(excelData);
-    ws['!cols'] = [{wch:6},{wch:20},{wch:14},{wch:8},{wch:10},{wch:12},{wch:14},{wch:14}];
+    ws['!cols'] = [{wch:6},{wch:20},{wch:8},{wch:10},{wch:12},{wch:14},{wch:20}];
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '单据表格');
 
@@ -822,7 +818,6 @@ const ExcelImport = {
           if (!s || s.includes('合计') || s.includes('总计')) continue;
           dataRows.push({
             name:   String(r[1] || '').trim(),
-            spec:   String(r[2] || '').trim(),
             unit:   String(r[3] || '').trim(),
             qty:    String(r[4] || '').trim(),
             price:  String(r[5] || '').trim(),
@@ -887,8 +882,7 @@ function bindEvents() {
 
     // 筛选匹配行
     const filtered = _tableBackup.filter(r =>
-      (r.name || '').toLowerCase().includes(term) ||
-      (r.spec || '').toLowerCase().includes(term)
+      (r.name || '').toLowerCase().includes(term)
     );
 
     const tbody = document.getElementById('tableBody');
@@ -898,7 +892,7 @@ function bindEvents() {
     } else {
       // 无匹配时显示空行提示
       const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="8" style="text-align:center;color:#999;padding:12px;">无匹配结果</td>';
+      tr.innerHTML = '<td colspan="7" style="text-align:center;color:#999;padding:12px;">无匹配结果</td>';
       tbody.appendChild(tr);
     }
     Table.refresh();

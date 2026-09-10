@@ -198,12 +198,11 @@ body::before {
 .doc-table .col-no    { width: 50px; }
 .row-num-input { width: 40px !important; }
 .doc-table .col-name  { width: auto; min-width: 360px; }
-.doc-table .col-spec  { width: 140px; }
 .doc-table .col-unit  { width: 90px; }
 .doc-table .col-qty   { width: 90px; }
 .doc-table .col-price { width: 120px; }
 .doc-table .col-amount{ width: 140px; }
-.doc-table .col-remark{ width: 120px; }
+.doc-table .col-remark{ width: 260px; }
 
 .doc-table td.amount-cell {
   font-weight: bold;
@@ -635,9 +634,8 @@ body::before {
   .doc-table th, .doc-table td { padding: 5px 2px; height: 32px; }
   .doc-table td input { font-size: 12px; }
   .doc-table .col-name { width: 80px; }
-  .doc-table .col-spec { width: 60px; }
   .doc-table .col-unit, .doc-table .col-qty, .doc-table .col-price, .doc-table .col-amount { width: 38px; }
-  .doc-table .col-remark { width: 70px; }
+  .doc-table .col-remark { width: 130px; }
 
   .doc-total-row { font-size: 14px; }
   .doc-total-row .total-amount { font-size: 16px; }
