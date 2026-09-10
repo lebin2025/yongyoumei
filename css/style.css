@@ -630,12 +630,18 @@ body::before {
 
   .btn { min-width: 56px; height: 32px; font-size: 11px; padding: 0 6px; border-radius: 6px; }
 
-  .doc-table { font-size: 12px; }
+  .doc-table { font-size: 12px; table-layout: fixed; }
   .doc-table th, .doc-table td { padding: 5px 2px; height: 32px; }
+  .doc-table th { font-size: 12px; }
   .doc-table td input { font-size: 12px; }
-  .doc-table .col-name { width: 80px; }
-  .doc-table .col-unit, .doc-table .col-qty, .doc-table .col-price, .doc-table .col-amount { width: 38px; }
-  .doc-table .col-remark { width: 130px; }
+  .doc-table .col-no { width: 28px; }
+  .doc-table .col-name { width: 124px; min-width: 0; }
+  .doc-table .col-unit { width: 40px; }
+  .doc-table .col-qty { width: 48px; }
+  .doc-table .col-price { width: 54px; }
+  .doc-table .col-amount { width: 62px; }
+  .doc-table .col-remark { width: 48px; }
+  .doc-table .row-num-input { width: 22px !important; }
 
   .doc-total-row { font-size: 14px; }
   .doc-total-row .total-amount { font-size: 16px; }
